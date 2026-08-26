@@ -21,42 +21,54 @@ body {
 
 section {
     position: relative;
+
     width: 100%;
     height: 100vh;
+    height: 100dvh;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     background: #FADADD;
+
     overflow: hidden;
 }
-
 
 /* ==============================
    VIDEO
 ============================== */
 
+/* ==============================
+   VIDEO BACKGROUND
+============================== */
+
 .video-background {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
 
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 
     z-index: 0;
     pointer-events: none;
+
+    overflow: hidden;
 }
 
 .video-background video {
     display: none;
+
+    position: absolute;
+    top: 0;
+    left: 0;
 
     width: 100%;
     height: 100%;
 
     object-fit: cover;
 }
-
 
 /* ==============================
    CONTAINER
