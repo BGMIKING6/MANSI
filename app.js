@@ -8,40 +8,30 @@ let stage = 0;
 let teleportMode = false;
 
 
-// ========================================
 // PRELOAD GIFS
-// ========================================
-
-const gifList = [
+[
     "cat-heart.gif",
     "rusure.gif",
     "3shocked-1.gif",
     "4.crying.gif",
     "5.crying.gif",
     "idc.gif"
-];
-
-gifList.forEach(function (src) {
+].forEach(function (src) {
     const img = new Image();
     img.src = src;
 });
 
 
-// ========================================
 // NO BUTTON
-// ========================================
-
 no.addEventListener("click", function (event) {
 
     event.preventDefault();
 
-    // FINAL TELEPORT MODE
     if (teleportMode) {
         moveNoButton();
         return;
     }
 
-    // FIRST NO
     if (stage === 0) {
 
         gif.src = "rusure.gif";
@@ -52,16 +42,13 @@ no.addEventListener("click", function (event) {
 
         yes.style.width = "60%";
         yes.style.height = "65%";
-
         no.style.width = "28%";
 
         stage = 1;
-
         return;
     }
 
 
-    // SECOND NO
     if (stage === 1) {
 
         gif.src = "3shocked-1.gif";
@@ -73,16 +60,13 @@ no.addEventListener("click", function (event) {
 
         yes.style.width = "70%";
         yes.style.height = "70%";
-
         no.style.width = "22%";
 
         stage = 2;
-
         return;
     }
 
 
-    // THIRD NO
     if (stage === 2) {
 
         gif.src = "4.crying.gif";
@@ -94,16 +78,13 @@ no.addEventListener("click", function (event) {
 
         yes.style.width = "80%";
         yes.style.height = "80%";
-
         no.style.width = "16%";
 
         stage = 3;
-
         return;
     }
 
 
-    // FINAL NO
     if (stage === 3) {
 
         gif.src = "5.crying.gif";
@@ -115,7 +96,6 @@ no.addEventListener("click", function (event) {
         yes.style.width = "90%";
         yes.style.height = "90%";
 
-        // Small teleport button
         no.style.width = "105px";
         no.style.height = "48px";
         no.style.fontSize = "25px";
@@ -123,28 +103,19 @@ no.addEventListener("click", function (event) {
         stage = 4;
         teleportMode = true;
 
-        // Wait for YES to resize first
         setTimeout(function () {
             moveNoButton();
         }, 200);
-
     }
-
 });
 
 
-// ========================================
-// MOBILE TOUCH
-// ========================================
-
+// MOBILE TELEPORT
 no.addEventListener("touchstart", function (event) {
 
     if (teleportMode) {
-
         event.preventDefault();
-
         moveNoButton();
-
     }
 
 }, {
@@ -152,47 +123,32 @@ no.addEventListener("touchstart", function (event) {
 });
 
 
-// ========================================
-// TELEPORT FUNCTION
-// ========================================
+// PC TELEPORT
+no.addEventListener("mouseenter", function () {
 
+    if (teleportMode) {
+        moveNoButton();
+    }
+
+});
+
+
+// TELEPORT
 function moveNoButton() {
 
     if (!teleportMode) {
         return;
     }
 
-
-    // --------------------------------
-    // Button size
-    // --------------------------------
-
     const buttonWidth = 105;
     const buttonHeight = 48;
-
     const padding = 15;
-
     const gap = 35;
-
-
-    // --------------------------------
-    // Screen size
-    // --------------------------------
 
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
 
-
-    // --------------------------------
-    // YES position
-    // --------------------------------
-
     const yesRect = yes.getBoundingClientRect();
-
-
-    // --------------------------------
-    // Make NO fixed
-    // --------------------------------
 
     no.style.position = "fixed";
     no.style.width = buttonWidth + "px";
@@ -200,62 +156,39 @@ function moveNoButton() {
     no.style.fontSize = "25px";
     no.style.zIndex = "999999";
 
-
-    // --------------------------------
-    // Find safe position
-    // --------------------------------
-
     let x = padding;
     let y = padding;
-
     let found = false;
 
-
-    for (let i = 0; i < 300; i++) {
-
-        const maxX =
-            Math.max(
-                padding,
-                screenWidth - buttonWidth - padding
-            );
-
-        const maxY =
-            Math.max(
-                padding,
-                screenHeight - buttonHeight - padding
-            );
-
+    for (let i = 0; i < 200; i++) {
 
         const testX =
-            Math.random() * (maxX - padding) + padding;
+            Math.random() *
+            (screenWidth - buttonWidth - padding * 2) +
+            padding;
 
         const testY =
-            Math.random() * (maxY - padding) + padding;
+            Math.random() *
+            (screenHeight - buttonHeight - padding * 2) +
+            padding;
 
-
-        // NO rectangle
         const noLeft = testX;
         const noRight = testX + buttonWidth;
 
         const noTop = testY;
         const noBottom = testY + buttonHeight;
 
-
-        // Safe area around YES
         const safeLeft = yesRect.left - gap;
         const safeRight = yesRect.right + gap;
 
         const safeTop = yesRect.top - gap;
         const safeBottom = yesRect.bottom + gap;
 
-
-        // Check collision
         const collision =
             noRight > safeLeft &&
             noLeft < safeRight &&
             noBottom > safeTop &&
             noTop < safeBottom;
-
 
         if (!collision) {
 
@@ -263,28 +196,14 @@ function moveNoButton() {
             y = testY;
 
             found = true;
-
             break;
         }
     }
 
-
-    // --------------------------------
-    // If no position found
-    // --------------------------------
-
     if (!found) {
-
-        // Put it at the top-left
         x = padding;
         y = padding;
-
     }
-
-
-    // --------------------------------
-    // Move button
-    // --------------------------------
 
     no.style.left = x + "px";
     no.style.top = y + "px";
@@ -296,27 +215,20 @@ function moveNoButton() {
 }
 
 
-// ========================================
 // YES BUTTON
-// ========================================
-
 yes.addEventListener("click", function () {
 
     teleportMode = false;
 
-    // Hide NO
     no.style.display = "none";
 
-    // Final GIF
     gif.src = "idc.gif";
 
-    // Final message
     text.innerHTML =
         "YAYYY 😭❤️<br>" +
         "I knew you wouldn't stay angry forever 🥹🫶🏻<br>" +
         "Thank you for forgiving me ❤️";
 
-    // Final button
     yes.innerHTML =
         '<a href="https://www.instagram.com/anish_kumar16_2009/" target="_blank">' +
         'Message me ❤️' +
@@ -325,28 +237,26 @@ yes.addEventListener("click", function () {
     yes.style.width = "90%";
     yes.style.height = "90%";
 
-    // Show video AFTER everything is ready
+
+    // IMPORTANT:
+    // Keep video behind the page
+    video.style.position = "fixed";
+    video.style.top = "0";
+    video.style.left = "0";
+    video.style.width = "100%";
+    video.style.height = "100%";
+    video.style.objectFit = "cover";
+
     video.style.display = "block";
 
-    // Make sure video is actually playing
     video.currentTime = 0;
 
-    const playPromise = video.play();
-
-    if (playPromise !== undefined) {
-        playPromise.catch(function () {
-            // Mobile browser may block autoplay.
-            // The video element remains as the background.
-        });
-    }
+    video.play().catch(function () {});
 
 });
 
 
-// ========================================
-// SCREEN RESIZE
-// ========================================
-
+// RESIZE
 window.addEventListener("resize", function () {
 
     if (teleportMode) {
