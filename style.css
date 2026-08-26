@@ -1,166 +1,225 @@
 @import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: #000000;
-    z-index: 4;
-    font-family: "Poppins", serif;
+    font-family: "Poppins", sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
-    height: 100vh;
-    width: 100%;
-    z-index: 1;
+    background: #FADADD;
 }
 
 section {
-    z-index: 1;
     position: relative;
-    height: 100%;
     width: 100%;
+    height: 100vh;
+
     display: flex;
-    align-items: center;
     justify-content: center;
-    background-color: #FADADD;
+    align-items: center;
+
+    background: #FADADD;
+
     overflow: hidden;
 }
 
-body,
-html {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-}
 
-/* Background video */
+/* =========================
+   VIDEO
+========================= */
 
 .video-background {
     position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
+    inset: 0;
+
     width: 100%;
     height: 100%;
+
+    z-index: 0;
 }
 
 .video-background video {
     display: none;
+
     width: 100%;
     height: 100%;
+
     object-fit: cover;
 }
 
-/* Main container */
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container {
-    height: 70%;
-    border: 2px solid black;
+    position: relative;
+
     width: 33%;
+    height: 70%;
+
+    border: 2px solid black;
+
+    z-index: 10;
 }
 
-/* Image section */
+
+/* =========================
+   IMAGE
+========================= */
 
 .image-box {
-    height: 70%;
     width: 100%;
+    height: 70%;
 }
 
 .actual-image {
-    height: 80%;
     width: 100%;
+    height: 80%;
+
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .gif {
-    height: 90%;
     width: 64%;
+    height: 90%;
+
     object-fit: contain;
 }
 
-/* Text */
+
+/* =========================
+   TEXT
+========================= */
 
 .text-one {
-    height: 20%;
     width: 100%;
+    height: 20%;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 0.5px solid rgba(0, 0, 0, 0.164);
+
     padding: 5px;
+
+    border: 0.5px solid rgba(0, 0, 0, 0.164);
 }
 
 .text-one p {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     text-align: center;
+    line-height: 1.4;
 }
 
-/* Buttons */
+
+/* =========================
+   BUTTON AREA
+========================= */
 
 .yes-no {
-    height: 30%;
+    position: relative;
+
     width: 100%;
+    height: 30%;
+
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
 
-.yes {
+
+/* =========================
+   BUTTONS
+========================= */
+
+.yes,
+.no {
     font-family: "Allura", serif;
+
     font-size: 7vh;
     font-weight: 550;
+
     height: 60%;
     width: 40%;
+
     border: none;
+
     cursor: pointer;
+
     background-color: #FB607F;
-    scale: 1;
-    z-index: 500;
+
     box-shadow: 4px 4px 10px black;
-    transition: scale 0.1s ease-in;
+
+    transition: 0.15s ease;
+}
+
+.yes {
+    z-index: 500;
 }
 
 .no {
-    font-family: "Allura", serif;
-    font-size: 7vh;
-    font-weight: 550;
-    height: 60%;
-    width: 40%;
-    border: none;
-    cursor: pointer;
-    background-color: #FB607F;
-    scale: 1;
-    box-shadow: 4px 4px 10px black;
-    transition: scale 0.1s ease-in;
+    z-index: 1000;
+
+    /* IMPORTANT FOR TELEPORT */
+    position: relative;
+
+    touch-action: manipulation;
 }
 
 .yes:hover,
 .no:hover {
     opacity: 0.95;
-    scale: 0.95;
+    transform: scale(0.95);
 }
+
+
+/* =========================
+   LINK
+========================= */
 
 a {
     text-decoration: none;
+    color: black;
+
     font-family: "Allura", serif;
     font-size: 7vh;
 }
 
-/* Mobile */
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (min-width: 200px) and (max-width: 1025px) {
 
     .container {
-        height: 80%;
         width: 98%;
+        height: 80%;
     }
 
     .gif {
-        height: 90%;
         width: 80%;
+        height: 90%;
+    }
+
+    .text-one p {
+        font-size: 1.05rem;
+    }
+
+    .yes,
+    .no {
+        font-size: 6vh;
     }
 }
