@@ -6,6 +6,7 @@ const video = document.getElementById("video");
 
 const landingScreen = document.getElementById("landingScreen");
 const openBtn = document.getElementById("openBtn");
+const container = document.querySelector(".container");
 
 let stage = 0;
 let teleportMode = false;
@@ -76,7 +77,7 @@ no.addEventListener("click", function (event) {
 
         yes.style.width = "82%";
         yes.style.height = "82%";
-        no.style.width = "16%";
+        no.style.width = "18%";
 
         stage = 3;
         return;
@@ -91,9 +92,9 @@ no.addEventListener("click", function (event) {
         yes.style.width = "92%";
         yes.style.height = "90%";
 
-        no.style.width = "100px";
-        no.style.height = "48px";
-        no.style.fontSize = "1.6rem";
+        no.style.width = "90px";
+        no.style.height = "42px";
+        no.style.fontSize = "1.2rem";
 
         stage = 4;
         teleportMode = true;
@@ -119,34 +120,38 @@ no.addEventListener("mouseenter", function () {
     }
 });
 
-// TELEPORT POSITION LOGIC
+// TELEPORT POSITION LOGIC (RESTRICTED INSIDE CONTAINER & NO HAAN OVERLAP)
 function moveNoButton() {
     if (!teleportMode) return;
 
-    const buttonWidth = 100;
-    const buttonHeight = 48;
-    const padding = 20;
-    const gap = 30;
+    const buttonWidth = 90;
+    const buttonHeight = 42;
+    const padding = 12;
+    const gap = 15;
 
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-
+    const containerRect = container.getBoundingClientRect();
     const yesRect = yes.getBoundingClientRect();
 
     no.style.position = "fixed";
     no.style.width = buttonWidth + "px";
     no.style.height = buttonHeight + "px";
-    no.style.fontSize = "1.6rem";
-    no.style.borderRadius = "20px";
+    no.style.fontSize = "1.2rem";
+    no.style.borderRadius = "16px";
     no.style.zIndex = "999999";
 
-    let x = padding;
-    let y = padding;
+    // Constrain strictly inside .container bounds
+    const minX = containerRect.left + padding;
+    const maxX = containerRect.right - buttonWidth - padding;
+    const minY = containerRect.top + padding;
+    const maxY = containerRect.bottom - buttonHeight - padding;
+
+    let x = minX;
+    let y = minY;
     let found = false;
 
     for (let i = 0; i < 200; i++) {
-        const testX = Math.random() * (screenWidth - buttonWidth - padding * 2) + padding;
-        const testY = Math.random() * (screenHeight - buttonHeight - padding * 2) + padding;
+        const testX = Math.random() * (maxX - minX) + minX;
+        const testY = Math.random() * (maxY - minY) + minY;
 
         const noLeft = testX;
         const noRight = testX + buttonWidth;
@@ -158,6 +163,7 @@ function moveNoButton() {
         const safeTop = yesRect.top - gap;
         const safeBottom = yesRect.bottom + gap;
 
+        // Check collision against "Haan" button
         const collision =
             noRight > safeLeft &&
             noLeft < safeRight &&
@@ -173,8 +179,9 @@ function moveNoButton() {
     }
 
     if (!found) {
-        x = padding;
-        y = padding;
+        // Fallback to top-right corner of container if constrained area is crowded
+        x = maxX;
+        y = minY;
     }
 
     no.style.left = x + "px";
