@@ -5,7 +5,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
 }
 
 html,
@@ -17,6 +16,7 @@ body {
 
 body {
     background: #FADADD;
+    font-family: "Poppins", sans-serif;
 }
 
 section {
@@ -25,18 +25,17 @@ section {
     height: 100vh;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     background: #FADADD;
-
     overflow: hidden;
 }
 
 
-/* =========================
+/* ==============================
    VIDEO
-========================= */
+============================== */
 
 .video-background {
     position: fixed;
@@ -46,6 +45,7 @@ section {
     height: 100%;
 
     z-index: 0;
+    pointer-events: none;
 }
 
 .video-background video {
@@ -58,9 +58,9 @@ section {
 }
 
 
-/* =========================
+/* ==============================
    CONTAINER
-========================= */
+============================== */
 
 .container {
     position: relative;
@@ -74,9 +74,9 @@ section {
 }
 
 
-/* =========================
+/* ==============================
    IMAGE
-========================= */
+============================== */
 
 .image-box {
     width: 100%;
@@ -100,9 +100,9 @@ section {
 }
 
 
-/* =========================
+/* ==============================
    TEXT
-========================= */
+============================== */
 
 .text-one {
     width: 100%;
@@ -112,21 +112,21 @@ section {
     align-items: center;
     justify-content: center;
 
-    padding: 5px;
+    padding: 8px;
 
     border: 0.5px solid rgba(0, 0, 0, 0.164);
 }
 
 .text-one p {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     text-align: center;
     line-height: 1.4;
 }
 
 
-/* =========================
+/* ==============================
    BUTTON AREA
-========================= */
+============================== */
 
 .yes-no {
     position: relative;
@@ -140,11 +140,42 @@ section {
 }
 
 
-/* =========================
-   BUTTONS
-========================= */
+/* ==============================
+   YES BUTTON
+============================== */
 
-.yes,
+.yes {
+    font-family: "Allura", serif;
+
+    font-size: 7vh;
+    font-weight: 550;
+
+    height: 60%;
+    width: 40%;
+
+    border: none;
+    cursor: pointer;
+
+    background: #FB607F;
+
+    z-index: 500;
+
+    box-shadow: 4px 4px 10px black;
+
+    transition: 0.15s ease;
+
+    touch-action: manipulation;
+}
+
+.yes:hover {
+    transform: scale(0.95);
+}
+
+
+/* ==============================
+   NO BUTTON
+============================== */
+
 .no {
     font-family: "Allura", serif;
 
@@ -155,39 +186,27 @@ section {
     width: 40%;
 
     border: none;
-
     cursor: pointer;
 
-    background-color: #FB607F;
+    background: #FB607F;
+
+    z-index: 1000;
 
     box-shadow: 4px 4px 10px black;
 
-    transition: 0.15s ease;
-}
+    touch-action: none;
+    user-select: none;
 
-.yes {
-    z-index: 500;
-}
-
-.no {
-    z-index: 1000;
-
-    /* IMPORTANT FOR TELEPORT */
-    position: relative;
-
-    touch-action: manipulation;
-}
-
-.yes:hover,
-.no:hover {
-    opacity: 0.95;
-    transform: scale(0.95);
+    transition:
+        left 0.12s ease,
+        top 0.12s ease,
+        transform 0.12s ease;
 }
 
 
-/* =========================
+/* ==============================
    LINK
-========================= */
+============================== */
 
 a {
     text-decoration: none;
@@ -198,11 +217,11 @@ a {
 }
 
 
-/* =========================
+/* ==============================
    MOBILE
-========================= */
+============================== */
 
-@media (min-width: 200px) and (max-width: 1025px) {
+@media (max-width: 1025px) {
 
     .container {
         width: 98%;
@@ -215,7 +234,7 @@ a {
     }
 
     .text-one p {
-        font-size: 1.05rem;
+        font-size: 1rem;
     }
 
     .yes,
