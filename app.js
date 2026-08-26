@@ -92,9 +92,13 @@ no.addEventListener("click", function (event) {
         yes.style.width = "92%";
         yes.style.height = "90%";
 
-        no.style.width = "90px";
-        no.style.height = "42px";
-        no.style.fontSize = "1.2rem";
+        no.style.width = "85px";
+        no.style.height = "40px";
+
+        const noSpan = no.querySelector("span");
+        if (noSpan) {
+            noSpan.style.fontSize = "1rem";
+        }
 
         stage = 4;
         teleportMode = true;
@@ -120,14 +124,14 @@ no.addEventListener("mouseenter", function () {
     }
 });
 
-// TELEPORT POSITION LOGIC (RESTRICTED INSIDE CONTAINER & NO HAAN OVERLAP)
+// TELEPORT POSITION LOGIC (STRICT OVERLAP PREVENTION)
 function moveNoButton() {
     if (!teleportMode) return;
 
-    const buttonWidth = 90;
-    const buttonHeight = 42;
-    const padding = 12;
-    const gap = 15;
+    const buttonWidth = 85;
+    const buttonHeight = 40;
+    const padding = 10;
+    const gap = 20;
 
     const containerRect = container.getBoundingClientRect();
     const yesRect = yes.getBoundingClientRect();
@@ -135,11 +139,9 @@ function moveNoButton() {
     no.style.position = "fixed";
     no.style.width = buttonWidth + "px";
     no.style.height = buttonHeight + "px";
-    no.style.fontSize = "1.2rem";
     no.style.borderRadius = "16px";
     no.style.zIndex = "999999";
 
-    // Constrain strictly inside .container bounds
     const minX = containerRect.left + padding;
     const maxX = containerRect.right - buttonWidth - padding;
     const minY = containerRect.top + padding;
@@ -149,9 +151,9 @@ function moveNoButton() {
     let y = minY;
     let found = false;
 
-    for (let i = 0; i < 200; i++) {
-        const testX = Math.random() * (maxX - minX) + minX;
-        const testY = Math.random() * (maxY - minY) + minY;
+    for (let i = 0; i < 300; i++) {
+        const testX = Math.random() * Math.max(maxX - minX, 1) + minX;
+        const testY = Math.random() * Math.max(maxY - minY, 1) + minY;
 
         const noLeft = testX;
         const noRight = testX + buttonWidth;
@@ -163,7 +165,7 @@ function moveNoButton() {
         const safeTop = yesRect.top - gap;
         const safeBottom = yesRect.bottom + gap;
 
-        // Check collision against "Haan" button
+        // Collision Check against Haan button
         const collision =
             noRight > safeLeft &&
             noLeft < safeRight &&
@@ -179,9 +181,9 @@ function moveNoButton() {
     }
 
     if (!found) {
-        // Fallback to top-right corner of container if constrained area is crowded
-        x = maxX;
-        y = minY;
+        // Fallback: position at absolute top or bottom corner furthest from Haan
+        x = (yesRect.left - containerRect.left > containerRect.right - yesRect.right) ? minX : maxX;
+        y = (yesRect.top - containerRect.top > containerRect.bottom - yesRect.bottom) ? minY : maxY;
     }
 
     no.style.left = x + "px";
@@ -189,7 +191,7 @@ function moveNoButton() {
     no.style.transform = "rotate(" + (Math.random() * 14 - 7) + "deg)";
 }
 
-// YES BUTTON
+// YES BUTTON CLICK
 yes.addEventListener("click", function () {
     teleportMode = false;
     no.style.display = "none";
@@ -201,8 +203,8 @@ yes.addEventListener("click", function () {
         "Thank you for forgiving me ❤️";
 
     yes.innerHTML =
-        '<a href="https://www.instagram.com/anish_kumar16_2009/" target="_blank">' +
-        'Message me ❤️' +
+        '<a href="https://t.me/akbhai_is_real" target="_blank">' +
+        '<span>Message me ❤️</span>' +
         '</a>';
 
     yes.style.width = "92%";
