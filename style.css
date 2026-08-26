@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +14,6 @@ body {
     height: 100vh;
     width: 100%;
     z-index: 1;
-    
 }
 
 section {
@@ -28,11 +28,14 @@ section {
     overflow: hidden;
 }
 
-body, html {
+body,
+html {
     height: 100%;
     margin: 0;
     overflow: hidden;
 }
+
+/* Background video */
 
 .video-background {
     position: fixed;
@@ -50,11 +53,15 @@ body, html {
     object-fit: cover;
 }
 
+/* Main container */
+
 .container {
     height: 70%;
     border: 2px solid black;
     width: 33%;
 }
+
+/* Image section */
 
 .image-box {
     height: 70%;
@@ -72,7 +79,10 @@ body, html {
 .gif {
     height: 90%;
     width: 64%;
+    object-fit: contain;
 }
+
+/* Text */
 
 .text-one {
     height: 20%;
@@ -81,7 +91,15 @@ body, html {
     align-items: center;
     justify-content: center;
     border: 0.5px solid rgba(0, 0, 0, 0.164);
+    padding: 5px;
 }
+
+.text-one p {
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+/* Buttons */
 
 .yes-no {
     height: 30%;
@@ -120,7 +138,8 @@ body, html {
     transition: scale 0.1s ease-in;
 }
 
-.yes:hover, .no:hover {
+.yes:hover,
+.no:hover {
     opacity: 0.95;
     scale: 0.95;
 }
@@ -131,12 +150,15 @@ a {
     font-size: 7vh;
 }
 
-/* for mobile display */
-@media (min-width:200px) and (max-width:1025px) {
+/* Mobile */
+
+@media (min-width: 200px) and (max-width: 1025px) {
+
     .container {
         height: 80%;
         width: 98%;
     }
+
     .gif {
         height: 90%;
         width: 80%;
