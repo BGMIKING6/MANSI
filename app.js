@@ -304,24 +304,41 @@ yes.addEventListener("click", function () {
 
     teleportMode = false;
 
+    // Hide NO
     no.style.display = "none";
 
-    video.style.display = "block";
-
+    // Final GIF
     gif.src = "idc.gif";
 
+    // Final message
     text.innerHTML =
         "YAYYY 😭❤️<br>" +
         "I knew you wouldn't stay angry forever 🥹🫶🏻<br>" +
         "Thank you for forgiving me ❤️";
 
+    // Final button
     yes.innerHTML =
-        '<a href="https://t.me/akbhai_is_real" target="_blank">' +
+        '<a href="https://www.instagram.com/anish_kumar16_2009/" target="_blank">' +
         'Message me ❤️' +
         '</a>';
 
     yes.style.width = "90%";
     yes.style.height = "90%";
+
+    // Show video AFTER everything is ready
+    video.style.display = "block";
+
+    // Make sure video is actually playing
+    video.currentTime = 0;
+
+    const playPromise = video.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(function () {
+            // Mobile browser may block autoplay.
+            // The video element remains as the background.
+        });
+    }
 
 });
 
