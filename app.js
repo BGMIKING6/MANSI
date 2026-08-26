@@ -1,14 +1,18 @@
-const yes = document.querySelector("#yes");
-const no = document.querySelector("#no");
-const gif = document.querySelector("#gif");
-const text = document.querySelector("#text");
-const vid = document.querySelector("video");
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const gif = document.getElementById("gif");
+const text = document.getElementById("text");
+const video = document.getElementById("video");
 
-let count = 2;
+let count = 0;
+let escapeMode = false;
 
 
-// All GIFs
-const gifs = [
+// =====================================
+// PRELOAD GIFS
+// =====================================
+
+const gifList = [
     "cat-heart.gif",
     "rusure.gif",
     "3shocked-1.gif",
@@ -17,137 +21,233 @@ const gifs = [
     "idc.gif"
 ];
 
-
-// Preload GIFs
-gifs.forEach(gifSrc => {
-    const img = new Image();
-    img.src = gifSrc;
+gifList.forEach(function (src) {
+    const image = new Image();
+    image.src = src;
 });
 
 
-// =========================
+// =====================================
 // NO BUTTON
-// =========================
+// =====================================
 
-no.addEventListener("click", () => {
+no.addEventListener("pointerdown", function (e) {
 
-    // First NO
-    if (count === 2) {
+    e.preventDefault();
+
+    // =================================
+    // FINAL MODE
+    // =================================
+
+    if (escapeMode) {
+        moveNo();
+        return;
+    }
+
+
+    // =================================
+    // NO #1
+    // =================================
+
+    if (count === 0) {
 
         gif.src = "rusure.gif";
 
         text.innerHTML =
-            "You meant to press YES right? 🤨";
+            "Achhaaa 😭❤️<br>" +
+            "Sorry bol diya na... ab thoda sa smile bhi kar do 🥺";
 
-        yes.style.height = "65%";
         yes.style.width = "60%";
+        yes.style.height = "65%";
 
-        no.style.width = "30%";
+        no.style.width = "28%";
 
-        count++;
+        count = 1;
+
+        return;
     }
 
 
-    // Second NO
-    else if (count === 3) {
+    // =================================
+    // NO #2
+    // =================================
+
+    if (count === 1) {
 
         gif.src = "3shocked-1.gif";
 
         text.innerHTML =
-            "Your hand must have slipped right? 🥹";
+            "Okay, I get it 😭<br>" +
+            "Galti meri thi, aur main maan raha hoon.<br>" +
+            "Bas mujhse zyada der naraz mat raho 🥹";
 
-        yes.style.height = "70%";
         yes.style.width = "70%";
+        yes.style.height = "70%";
 
-        no.style.width = "20%";
+        no.style.width = "22%";
 
-        count++;
+        count = 2;
+
+        return;
     }
 
 
-    // Third NO
-    else if (count === 4) {
+    // =================================
+    // NO #3
+    // =================================
+
+    if (count === 2) {
+
 
         gif.src = "4.crying.gif";
 
         text.innerHTML =
-            "I'm gonna cry 😭";
+            "Mansi please 🥺❤️<br>" +
+            "Tumse baat kiye bina din thoda ajeeb sa lagta hai...<br>" +
+            "Ab gussa chhod do na 🫶🏻";
 
-        yes.style.height = "80%";
         yes.style.width = "80%";
+        yes.style.height = "80%";
 
-        no.style.fontSize = "4vh";
-        no.style.width = "10%";
+        no.style.width = "16%";
 
-        count++;
+        count = 3;
+
+        return;
     }
 
 
-    // Fourth NO
-    else if (count === 5) {
+    // =================================
+    // NO #4 — FINAL MESSAGE
+    // =================================
+
+    if (count === 3) {
 
         gif.src = "5.crying.gif";
 
         text.innerHTML =
-            "Pretty Please 🥺😘";
+            "Bas ab maan bhi jao na Mansi 🥺❤️<br>" +
+            "Tumse baat na ho toh achha nahi lagta yaar... 🫶🏻";
 
+        yes.style.width = "90%";
         yes.style.height = "90%";
-        yes.style.width = "96%";
 
-        /*
-            IMPORTANT:
+        // SMALL NO BUTTON
+        no.style.width = "85px";
+        no.style.height = "42px";
+        no.style.fontSize = "22px";
 
-            NO does NOT disappear.
+        // Enable teleport
+        escapeMode = true;
 
-            If Mansi presses NO again,
-            absolutely nothing happens.
-        */
+        count = 4;
 
-        count++;
-    }
+        // Move immediately
+        setTimeout(function () {
+            moveNo();
+        }, 100);
 
-
-    // Fifth NO and onwards
-    else {
-
-        // Do absolutely nothing 😂
-
+        return;
     }
 
 });
 
 
-// =========================
+// =====================================
+// TELEPORT FUNCTION
+// =====================================
+
+function moveNo() {
+
+    if (!escapeMode) {
+        return;
+    }
+
+    // Fixed to the whole screen
+    no.style.position = "fixed";
+
+    no.style.width = "85px";
+    no.style.height = "42px";
+    no.style.fontSize = "22px";
+
+    no.style.zIndex = "999999";
+
+    // Remove transform from previous position
+    no.style.transform = "none";
+
+    const padding = 10;
+
+    const buttonWidth = 85;
+    const buttonHeight = 42;
+
+    // Safe screen boundaries
+    const maxX =
+        window.innerWidth - buttonWidth - padding;
+
+    const maxY =
+        window.innerHeight - buttonHeight - padding;
+
+    // Random position
+    const randomX =
+        Math.floor(
+            Math.random() * Math.max(1, maxX - padding)
+        ) + padding;
+
+    const randomY =
+        Math.floor(
+            Math.random() * Math.max(1, maxY - padding)
+        ) + padding;
+
+    no.style.left = randomX + "px";
+    no.style.top = randomY + "px";
+
+}
+
+
+// =====================================
 // YES BUTTON
-// =========================
+// =====================================
 
-yes.addEventListener("click", () => {
+yes.addEventListener("click", function () {
 
-    // Show heart video
-    vid.style.display = "block";
+    // Stop NO teleporting
+    escapeMode = false;
+
+    // Hide NO
+    no.style.display = "none";
+
+    // Show video
+    video.style.display = "block";
 
     // Final GIF
     gif.src = "idc.gif";
 
     // Final message
     text.innerHTML =
-        "Knew it babe 😘❤️";
+        "YAYYY 😭❤️<br>" +
+        "I knew you wouldn't stay angry forever 🥹🫶🏻<br>" +
+        "Thank you for forgiving me ❤️";
 
-    // Change button
+    // Final button
     yes.innerHTML =
-        '<a href="https://www.instagram.com/anish_kumar16_2009/" target="_blank">Message me ❤️</a>';
+        '<a href="https://www.instagram.com/anish_kumar16_2009/" target="_blank">' +
+        'Message me ❤️' +
+        '</a>';
 
-    // Make YES big
+    yes.style.width = "90%";
     yes.style.height = "90%";
-    yes.style.width = "96%";
 
-    // NO stays hidden after YES
-    no.style.display = "none";
+});
 
 
-    // Hide video after 9 seconds
-    setTimeout(() => {
-        vid.style.display = "none";
-    }, 9000);
+// =====================================
+// SCREEN RESIZE
+// =====================================
+
+window.addEventListener("resize", function () {
+
+    if (escapeMode) {
+        moveNo();
+    }
 
 });
