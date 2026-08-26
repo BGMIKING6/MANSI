@@ -316,7 +316,7 @@ yes.addEventListener("click", function () {
         "Thank you for forgiving me ❤️";
 
     yes.innerHTML =
-        '<a href="https://www.instagram.com/anish_kumar16_2009/" target="_blank">' +
+        '<a href="https://t.me/akbhai_is_real" target="_blank">' +
         'Message me ❤️' +
         '</a>';
 
